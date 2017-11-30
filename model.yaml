@@ -1,0 +1,30 @@
+sector_models:
+  - name: et_module
+    path: /vagrant/models/et_module/run.py
+    classname: Et_module
+    config_dir: "."
+    parameters:
+    - parameters.yaml
+timesteps: timesteps.yaml
+dependencies:
+scenario_data:
+  # given input data, required values for every year of a model run
+interval_sets:
+  # shared understanding of time intervals within a year
+  - name: hourly
+    file: time_intervals.yaml
+region_sets:
+  # shared understanding of regions within the modelled area (e.g. GB)
+  - name: national
+    file: ../../data/uk_nations_shp/regions.shp
+planning:
+  pre_specified:
+    use: true
+    files:
+      - pre-specified.yaml # The build instructions
+  rule_based:
+    use: false
+    files: []
+  optimisation:
+    use: false
+    files: []
