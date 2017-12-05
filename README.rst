@@ -2,18 +2,14 @@
 et_module
 =========
 
+Et_module
+====================================
+.. image:: https://img.shields.io/badge/docs-latest-brightgreen.svg
+    :target: http://et-module.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
-Add a short description here!
+.. image:: https://travis-ci.org/nismod/et-module.svg?branch=master 
+    :target: https://travis-ci.org/nismod/et-module
 
-
-Description
-===========
-
-A longer description of your project goes here...
-
-
-Note
-====
-
-This project has been set up using PyScaffold 2.5.8. For details and usage
-information on PyScaffold see http://pyscaffold.readthedocs.org/.
+.. image:: https://coveralls.io/repos/github/nismod/et-module/badge.svg
+    :target: https://coveralls.io/github/nismod/et-module

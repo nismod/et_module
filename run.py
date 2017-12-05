@@ -87,8 +87,7 @@ class ETWrapper(SectorModel):
         # Temporally disaggregate load profile
         # ------------------
         # Annual demand of simulation year
-        et_demand_y_array = data['et_demand']
-        et_demand_y = self.array_to_dict(et_demand_y_array)
+        et_demand_y = self.array_to_dict(data['et_demand'])
 
         # Regions
         region_names = self.get_region_names(REGION_SET_NAME)

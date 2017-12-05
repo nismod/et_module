@@ -1,0 +1,20 @@
+sudo: false
+language: python
+virtualenv:
+  system_site_packages: true
+env:
+  matrix:
+  - DISTRIB="conda" PYTHON_VERSION="3.5" COVERAGE="true"
+install:
+- source tests/travis_install.sh
+- pip install -r test-requirements.txt
+before_script:
+- git config --global user.email "sven.eggimann@ouce.ox.ac.uk"
+- git config --global user.name "Sven Eggimann"
+script:
+- python setup.py develop
+- pytest tests
+after_success:
+- if [[ "$COVERAGE" == "true" ]]; then coveralls || echo "failed"; fi
+notifications:
+  email: false
