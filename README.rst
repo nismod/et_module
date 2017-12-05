@@ -16,14 +16,19 @@ Temporally diasaggregates energy demand output from transport model.
 
 Charging load profiles
 ======================
-In the folder `_config_data` different current and future
-load profiles are stored taken from literature.
+In the folder ``_config_data`` different current and future
+load profiles are generated in an excel file, taken from literature.
 
 
 Things to implement
 -------------------
 
 - How the charging profile changes over time
-- Load more profiles into `_config_data` from literature
+- Load more profiles into ``_config_data`` from literature
 - Maybe interaction from supply model
 - Transfor other demand next to electricity to databse ?
+
+
+Things to do
+------------
+- write tests
