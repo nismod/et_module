@@ -19,7 +19,7 @@ Contents
 ========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
    Model Documentation <documentation>
    Module Reference <api/modules>
