@@ -16,7 +16,7 @@ This is the documentation of **et_module**.
     used to temporaly disaggregate electricity demand.
 
 Et_module functional overview
-![Image of model function](../docs/_images/001-model_overview.jpg)
+![Image of model function](https://github.com/nismod/et_module/blob/master/docs/_images/001-model_overview.jpg)
 
 
 Contents

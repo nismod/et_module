@@ -14,6 +14,12 @@ Et_module (energy_transport_module)
 
 Temporally diasaggregates energy demand output from transport model.
 
+.. image:: https://github.com/nismod/et_module/blob/master/docs/_images/001-model_overview.jpg
+    :alt: Et_module overview
+    :width: 100%
+    :align: center
+
+
 Charging load profiles
 ======================
 In the folder ``_config_data`` different current and future
