@@ -15,6 +15,9 @@ This is the documentation of **et_module**.
     different charging patterns of electric vehicles are 
     used to temporaly disaggregate electricity demand.
 
+Et_module functional overview
+![Image of model function](../docs/_images/001-model_overview.jpg)
+
 
 Contents
 ========
