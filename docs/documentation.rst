@@ -7,9 +7,13 @@ Code Overview
 
 Overview
 ===================
-Et_module functional overview
 
-.. image:: https://github.com/nismod/et_module/blob/master/docs/_images/001-model_overview.jpg
+.. image:: https://raw.githubusercontent.com/nismod/et_module/master/docs/_images/001-model_overview.jpg
+    :alt: Et_module overview
+    :width: 100%
+    :align: center
+
+Figure 1: Et_module functional overview.
 
 Detailed description
 ===================
