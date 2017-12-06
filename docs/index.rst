@@ -15,21 +15,17 @@ This is the documentation of **et_module**.
     different charging patterns of electric vehicles are 
     used to temporaly disaggregate electricity demand.
 
-Et_module functional overview
-![Image of model function](https://github.com/nismod/et_module/blob/master/docs/_images/001-model_overview.jpg)
-
-
 Contents
 ========
 
 .. toctree::
    :maxdepth: 2
 
+   Model Documentation <documentation>
+   Module Reference <api/modules>
    License <license>
    Authors <authors>
    Changelog <changes>
-   Module Reference <api/modules>
-
 
 Indices and tables
 ==================
