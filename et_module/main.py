@@ -22,8 +22,13 @@ def temporal_disaggregation(simulation_yr, et_demand_y, load_profiles, region_na
         Load profile objects
     region_names : list
         All region names
+    
+    Returns
+    =========
+    et_demand_yh : array
+        Houlry demand ; reg_array_nr, hours
     """
-    et_demand_yh = {}
+    et_demand_yh = np.zeros((len(region_names), 365 * 24), dtype=float)
 
     # --------------------------------------------------------------------
     # Calculate current year profile with base year and profile from 2015
@@ -37,9 +42,9 @@ def temporal_disaggregation(simulation_yr, et_demand_y, load_profiles, region_na
     # ------------------------------------
     # Disaggregate for every region
     # ------------------------------------
-    for region in region_names:
+    for region_array_nr, region in enumerate(region_names): 
         reg_profile_yh = et_demand_y[region] * profile_yh
-        et_demand_yh[region] = reg_profile_yh
+        et_demand_yh[region_array_nr] = reg_profile_yh.reshape(8760)
 
     return et_demand_yh
 

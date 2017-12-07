@@ -86,21 +86,23 @@ class ETWrapper(SectorModel):
         # ------------------
         # Temporally disaggregate load profile
         # ------------------
-        # Annual demand of simulation year
-        et_demand_y = self.array_to_dict(data['et_demand'])
+        # Hourly demand of simulation year
+        et_demand_y_electricity = self.array_to_dict(data['et_demand_electricity'])
 
         # Regions
         region_names = self.get_region_names(REGION_SET_NAME)
 
         reg_et_demand_yh = main.temporal_disaggregation(
-            curr_yr=timestep,
-            et_demand_y=et_demand_y,
+            simulation_yr=timestep,
+            et_demand_y=et_demand_y_electricity,
             load_profiles=load_profiles,
             region_names=region_names)
 
-        et_module_out = reg_et_demand_yh
-        print(":.. Finished running et_module")
-        return {'model_name': et_module_out}
+        et_module_out = {}
+        et_module_out['electricity'] = reg_et_demand_yh
+
+        print("... Finished running et_module")
+        return et_module_out
 
     def extract_obj(self, results):
         """Implement this method to return a scalar value objective function
