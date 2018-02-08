@@ -7,11 +7,6 @@ import numpy as np
 from et_module import diffusion_functions
 from et_module.plotting_functions import plot_lp_dh
 
-def calc_sigm_load_profile_yh(load_profiles, simulation_yr):
-    """Calculate sigmoid diffusion
-    """
-    pass
-
 def load_curve_assignement(
         curr_yr,
         base_yr,
