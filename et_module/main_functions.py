@@ -1,6 +1,7 @@
-"""
+"""All main functions for et_module
 """
 import os
+import sys
 import csv
 import numpy as np
 from et_module import diffusion_functions
@@ -18,6 +19,7 @@ def load_curve_assignement(
         et_service_demand_yh,
         load_profiles,
         regions,
+        charging_scenario,
         diffusion='linear'
     ):
     """Assign input electrictiy demand (given as "tranport service"
@@ -38,10 +40,20 @@ def load_curve_assignement(
         Load profile objects
     regions : list
         All region names
+    charging_scenario : str
+        Scenario
+
+            'sheduled' :
+
+            'sheduled' : 
+            TODO
+
     diffusion : str
         Type of diffusion between base year and end year load profile
+
             'linear':   Linear change over time towards future load profile
-            'sigmoid':  Sigmoid change over time towards future load profile #TODO IMPLENET
+
+            'sigmoid':  Sigmoid change over time towards future load profile
 
     Returns
     =========
@@ -61,7 +73,7 @@ def load_curve_assignement(
             value_end=1,
             yr_until_changed=yr_until_changed)
 
-    if diffusion == 'sigmoid':
+    elif diffusion == 'sigmoid':
         # Default sigmoid parameters
         simulation_year_p = diffusion_functions.sigmoid_diffusion(
             base_yr=base_yr,
@@ -69,7 +81,8 @@ def load_curve_assignement(
             end_yr=yr_until_changed,
             sig_midpoint=0,
             sig_steeppness=1)
-
+    else:
+        sys.exit("Error: No diffusion option is selected")
     # --------------------------------------------------------------------
     # Calculate current year profile with base year and profile from 2015
     # --------------------------------------------------------------------
@@ -82,10 +95,19 @@ def load_curve_assignement(
 
     # Get future year load profile
     for load_profile in load_profiles:
-        if load_profile.name == 'av_lp_2050.csv':
-            profile_yh_ey = load_profile.shape_yh
-            print(" -- B " + str(np.sum(profile_yh_ey)))
-            print(" -- B " + str(profile_yh_ey.shape))
+
+        if charging_scenario == 'unsheduled':
+
+            # Unsheduled load profile (same as base year)
+            if load_profile.name == 'av_lp_2015.csv':
+                profile_yh_ey = load_profile.shape_yh
+
+        elif charging_scenario == 'sheduled':
+
+            # Sheduled load profile
+            if load_profile.name == 'av_lp_2050.csv':
+                profile_yh_ey = load_profile.shape_yh
+
 
     if base_yr == curr_yr:
         profile_yh_cy = profile_yh_by

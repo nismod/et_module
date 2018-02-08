@@ -11,7 +11,6 @@ from pkg_resources import Requirement, resource_filename
 from pyproj import Proj, transform
 from et_module import main_functions
 
-
 REGION_SET_NAME = 'lad_uk_2016'
 
 class ETWrapper(SectorModel):
@@ -84,9 +83,11 @@ class ETWrapper(SectorModel):
         # ---------------------
 
         # --------------------
-        # SCENARIO PARAMETERS: TODO: WRITE IN WRAPPER
+        # SCENARIO PARAMETERS
         # --------------------
-        yr_until_changed = 2050
+        yr_until_changed = 2050 #TODO: WRITE IN WRAPPER
+
+        load_profile_scenario = 'sheduled' #'unsheduled'
 
         # Regions
         regions = self.get_region_names(REGION_SET_NAME)
@@ -119,6 +120,7 @@ class ETWrapper(SectorModel):
             et_service_demand_yh=et_demand_elec_input,
             load_profiles=load_profiles,
             regions=regions,
+            charging_scenario=load_profile_scenario,
             diffusion='sigmoid')
 
         et_module_out = {}
@@ -127,9 +129,6 @@ class ETWrapper(SectorModel):
         # -------
         # Testing
         # -------
-        print("testing")
-        print(np.sum(et_module_out['electricity']))
-        print(sum(et_demand_elec_input.values()))
         assert round(np.sum(et_module_out['electricity']), 2) == round(sum(et_demand_elec_input.values()), 2)
 
         print("... Finished running et_module")

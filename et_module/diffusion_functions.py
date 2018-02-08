@@ -1,5 +1,6 @@
 """Diffusion functions
 """
+import math
 
 def linear_diff(base_yr, curr_yr, value_start, value_end, yr_until_changed):
     """Calculate a linear diffusion for a current year. If
