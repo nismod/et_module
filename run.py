@@ -11,6 +11,7 @@ from pkg_resources import Requirement, resource_filename
 from pyproj import Proj, transform
 from et_module import main_functions
 
+
 REGION_SET_NAME = 'lad_uk_2016'
 
 class ETWrapper(SectorModel):
@@ -82,6 +83,11 @@ class ETWrapper(SectorModel):
         # Load input variables
         # ---------------------
 
+        # --------------------
+        # SCENARIO PARAMETERS: TODO: WRITE IN WRAPPER
+        # --------------------
+        yr_until_changed = 2050
+
         # Regions
         regions = self.get_region_names(REGION_SET_NAME)
 
@@ -100,29 +106,33 @@ class ETWrapper(SectorModel):
         # ------------------------------------
         # Load EV charging load profiles
         # ------------------------------------
-        load_profiles = main.get_load_profiles(csv_path_lp)
+        load_profiles = main_functions.get_load_profiles(
+            csv_path_lp)
 
         # ------------------
         # Temporal disaggregation of load profile
         # ------------------
         reg_et_demand_yh = main_functions.load_curve_assignement(
             curr_yr=simulation_yr,
-            base_yr=,
-            yr_until_changed,
+            base_yr=base_yr,
+            yr_until_changed=yr_until_changed,
             et_service_demand_yh=et_demand_elec_input,
             load_profiles=load_profiles,
             regions=regions,
-            diffusion='linear')
+            diffusion='sigmoid')
 
         et_module_out = {}
         et_module_out['electricity'] = reg_et_demand_yh
 
-        print("... Finished running et_module")
-
         # -------
         # Testing
         # -------
-        assert np.sum(et_module_out['electricity']) == np.sum(et_demand_elec_input)
+        print("testing")
+        print(np.sum(et_module_out['electricity']))
+        print(sum(et_demand_elec_input.values()))
+        assert round(np.sum(et_module_out['electricity']), 2) == round(sum(et_demand_elec_input.values()), 2)
+
+        print("... Finished running et_module")
         return et_module_out
 
     def extract_obj(self, results):

@@ -4,6 +4,7 @@ import os
 import csv
 import numpy as np
 from et_module import diffusion_functions
+from et_module.plotting_functions import plot_lp_dh
 
 def calc_sigm_load_profile_yh(load_profiles, simulation_yr):
     """Calculate sigmoid diffusion
@@ -60,14 +61,51 @@ def load_curve_assignement(
             value_end=1,
             yr_until_changed=yr_until_changed)
 
+    if diffusion == 'sigmoid':
+        # Default sigmoid parameters
+        simulation_year_p = diffusion_functions.sigmoid_diffusion(
+            base_yr=base_yr,
+            curr_yr=curr_yr,
+            end_yr=yr_until_changed,
+            sig_midpoint=0,
+            sig_steeppness=1)
+
     # --------------------------------------------------------------------
     # Calculate current year profile with base year and profile from 2015
     # --------------------------------------------------------------------
-    #TODO: Write sigmoid diffusion and calculate cy profile
-    #profile_yh = calc_sigm_load_profile_yh(load_profiles, simulation_yr)
+
+    # Get base year load profile
     for load_profile in load_profiles:
         if load_profile.name == 'av_lp_2015.csv':
-            profile_yh = load_profile.shape_yh
+            profile_yh_by = load_profile.shape_yh
+            print(" -- A " + str(np.sum(profile_yh_by)))
+
+    # Get future year load profile
+    for load_profile in load_profiles:
+        if load_profile.name == 'av_lp_2050.csv':
+            profile_yh_ey = load_profile.shape_yh
+            print(" -- B " + str(np.sum(profile_yh_ey)))
+            print(" -- B " + str(profile_yh_ey.shape))
+
+    if base_yr == curr_yr:
+        profile_yh_cy = profile_yh_by
+    elif curr_yr == yr_until_changed or curr_yr > yr_until_changed:
+        profile_yh_cy = profile_yh_ey
+    else:
+
+        # Calculate difference between by and ey
+        diff_profile = profile_yh_ey - profile_yh_by
+
+        # Calculate difference up to cy
+        diff_profile_cy = diff_profile * simulation_year_p
+
+
+        # Add difference to by
+        profile_yh_cy = profile_yh_by + diff_profile_cy
+
+
+    # Plotting
+    plot_lp_dh(profile_yh_cy[0])
 
     # ------------------------------------
     # Disaggregate for every region
@@ -78,7 +116,7 @@ def load_curve_assignement(
         et_service_demand_y = np.sum(et_service_demand_yh[region])
 
         # Multiply the annual total service demand with yh load profile
-        reg_profile_yh = et_service_demand_y * profile_yh
+        reg_profile_yh = et_service_demand_y * profile_yh_cy
 
         # Reshape (365 days, 24hours) into 8760 timesteps
         et_demand_yh[region_array_nr] = reg_profile_yh.reshape(8760)
@@ -102,7 +140,9 @@ def get_load_profiles(path):
     load_profiles = []
 
     # Name of load profiles to load
-    names = ['av_lp_2015.csv', 'av_lp_2050.csv']
+    names = [
+        'av_lp_2015.csv',
+        'av_lp_2050.csv']
 
     for name in names:
 
@@ -112,11 +152,13 @@ def get_load_profiles(path):
         # Read in csv load profile
         lp_dh = read_load_shape(path_to_csv)
 
+        lp_dh_p = lp_dh / 100 # convert percentage to fraction
+
         # Shape for every hour in a year (Assign same profile to every day)
         shape_yd = np.full((365), 1/365) 
 
         # Shape for every hour in a year (365) * (24)
-        shape_yh = shape_yd[:, np.newaxis]  * lp_dh 
+        shape_yh = shape_yd[:, np.newaxis]  * lp_dh_p 
 
         # Create load profile
         load_profile = LoadProfile(
