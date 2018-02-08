@@ -9,7 +9,7 @@ from collections import defaultdict
 from smif.model.sector_model import SectorModel
 from pkg_resources import Requirement, resource_filename
 from pyproj import Proj, transform
-from et_module import main
+from et_module import main_functions
 
 REGION_SET_NAME = 'lad_uk_2016'
 
@@ -72,40 +72,57 @@ class ETWrapper(SectorModel):
 
         Returns
         =======
+        et_module_out : dict
+            Outputs of et_module
         """
+        logging.info("... start et_module")
         print("... start et_module")
+
+        # ---------------------
+        # Load input variables
+        # ---------------------
+
+        # Regions
+        regions = self.get_region_names(REGION_SET_NAME)
+
+        # Current year of simulation
+        simulation_yr = data_handle.current_timestep
+        base_yr = data_handle.timesteps[0]
+
+        # Hourly transport demand of simulation year (electrictiy)
+        elec_array_data = data_handle.get_base_timestep_data('electricity')
+        et_demand_elec_input = self.array_to_dict(elec_array_data)
 
         # Paths where csv profile are stored
         main_path = resource_filename(Requirement.parse("et_module"), "")
-        path_lp_csv = os.path.join(main_path, '_config_data')
+        csv_path_lp = os.path.join(main_path, '_config_data')
+
+        # ------------------------------------
+        # Load EV charging load profiles
+        # ------------------------------------
+        load_profiles = main.get_load_profiles(csv_path_lp)
 
         # ------------------
-        # Load charging load profiles
+        # Temporal disaggregation of load profile
         # ------------------
-        load_profiles = main.get_load_profiles(path_lp_csv)
-
-        simulation_yr = data_handle.current_timestep
-        #data['sim_param']['curr_yr'] = data_handle.current_timestep
-        # ------------------
-        # Temporally disaggregate load profile
-        # ------------------
-        # Hourly demand of simulation year
-        elec_array_data = data_handle.get_base_timestep_data('electricity')
-        et_demand_y_electricity = self.array_to_dict(elec_array_data)
-
-        # Regions
-        region_names = self.get_region_names(REGION_SET_NAME)
-
-        reg_et_demand_yh = main.temporal_disaggregation(
-            simulation_yr=simulation_yr,
-            et_demand_y=et_demand_y_electricity,
+        reg_et_demand_yh = main_functions.load_curve_assignement(
+            curr_yr=simulation_yr,
+            base_yr=,
+            yr_until_changed,
+            et_service_demand_yh=et_demand_elec_input,
             load_profiles=load_profiles,
-            region_names=region_names)
+            regions=regions,
+            diffusion='linear')
 
         et_module_out = {}
         et_module_out['electricity'] = reg_et_demand_yh
 
         print("... Finished running et_module")
+
+        # -------
+        # Testing
+        # -------
+        assert np.sum(et_module_out['electricity']) == np.sum(et_demand_elec_input)
         return et_module_out
 
     def extract_obj(self, results):

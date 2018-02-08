@@ -3,32 +3,62 @@
 import os
 import csv
 import numpy as np
+from et_module import diffusion_functions
 
 def calc_sigm_load_profile_yh(load_profiles, simulation_yr):
     """Calculate sigmoid diffusion
     """
     pass
 
-def temporal_disaggregation(simulation_yr, et_demand_y, load_profiles, region_names):
-    """Disaggregat temporally from y to yh
+def load_curve_assignement(
+        curr_yr,
+        base_yr,
+        yr_until_changed,
+        et_service_demand_yh,
+        load_profiles,
+        regions,
+        diffusion='linear'
+    ):
+    """Assign input electrictiy demand (given as "tranport service"
+    for every hour in a year) to an hourly energy demand load profile
+    depending (see documentation for more information).
 
     Arguments
     =========
-    simulation_yr : float
-        Simulation year
-    et_demand_y : dict
-        Transport annual energy demand for every region
+    curr_yr : int
+        Current simulation year
+    base_yr : int
+        Base year of simulation
+    yr_until_changed : int
+        Year until changed is fully implemented
+    et_service_demand_yh : dict
+        Transport energy demand for every region (hourly demand)
     load_profiles : list
         Load profile objects
-    region_names : list
+    regions : list
         All region names
-    
+    diffusion : str
+        Type of diffusion between base year and end year load profile
+            'linear':   Linear change over time towards future load profile
+            'sigmoid':  Sigmoid change over time towards future load profile #TODO IMPLENET
+
     Returns
     =========
     et_demand_yh : array
-        Houlry demand ; reg_array_nr, hours
+        Houlry demand, np.array(reg_array_nr, 8760 timesteps)
     """
-    et_demand_yh = np.zeros((len(region_names), 365 * 24), dtype=float)
+    et_demand_yh = np.zeros((len(regions), 365 * 24), dtype=float)
+
+    # -------------------
+    # Calculate diffusion
+    # -------------------
+    if diffusion == 'linear':
+        simulation_year_p = diffusion_functions.linear_diff(
+            base_yr=base_yr,
+            curr_yr=curr_yr,
+            value_start=0,
+            value_end=1,
+            yr_until_changed=yr_until_changed)
 
     # --------------------------------------------------------------------
     # Calculate current year profile with base year and profile from 2015
@@ -42,8 +72,15 @@ def temporal_disaggregation(simulation_yr, et_demand_y, load_profiles, region_na
     # ------------------------------------
     # Disaggregate for every region
     # ------------------------------------
-    for region_array_nr, region in enumerate(region_names): 
-        reg_profile_yh = et_demand_y[region] * profile_yh
+    for region_array_nr, region in enumerate(regions):
+
+        # Sum total service demand to annual demand
+        et_service_demand_y = np.sum(et_service_demand_yh[region])
+
+        # Multiply the annual total service demand with yh load profile
+        reg_profile_yh = et_service_demand_y * profile_yh
+
+        # Reshape (365 days, 24hours) into 8760 timesteps
         et_demand_yh[region_array_nr] = reg_profile_yh.reshape(8760)
 
     return et_demand_yh
