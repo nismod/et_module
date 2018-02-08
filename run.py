@@ -16,6 +16,11 @@ REGION_SET_NAME = 'lad_uk_2016'
 class ETWrapper(SectorModel):
     """Energy Demand Wrapper
     """
+    def __init__(self, name):
+        super().__init__(name)
+
+        self.user_data = {}
+
     def array_to_dict(self, input_array):
         """Convert array to dict
 
@@ -37,15 +42,13 @@ class ETWrapper(SectorModel):
         return dict(output_dict)
 
     def before_model_run(self, data=None):
-        """Runs prior to any ``simulate()`` step
+        """Implement this method to conduct pre-model run tasks
 
-        Writes scenario data out into the scenario files
-
-        Saves useful data into the ``self.user_data`` dictionary for access
-        in the ``simulate()`` method
-
-        Data is accessed using the `get_scenario_data()` method is provided
-        as a numpy array with the dimensions timesteps-by-regions-by-intervals.
+        Arguments
+        ---------
+        data_handle: smif.data_layer.DataHandle
+            Access parameter values (before any model is run, no dependency
+            input data or state is guaranteed to be available)
 
         Info
         -----
@@ -58,14 +61,12 @@ class ETWrapper(SectorModel):
         """
         pass
 
-    def simulate(self, timestep, data=None):
+    def simulate(self, data_handle):
         """Runs the Energy Demand model for one `timestep`
 
         Arguments
         ---------
-        timestep : int
-            The name of the current timestep
-        data : dict
+        data_handle : dict
             A dictionary containing all parameters and model inputs defined in
             the smif configuration by name
 
@@ -83,17 +84,20 @@ class ETWrapper(SectorModel):
         # ------------------
         load_profiles = main.get_load_profiles(path_lp_csv)
 
+        simulation_yr = data_handle.current_timestep
+        #data['sim_param']['curr_yr'] = data_handle.current_timestep
         # ------------------
         # Temporally disaggregate load profile
         # ------------------
         # Hourly demand of simulation year
-        et_demand_y_electricity = self.array_to_dict(data['et_demand_electricity'])
+        elec_array_data = data_handle.get_base_timestep_data('electricity')
+        et_demand_y_electricity = self.array_to_dict(elec_array_data)
 
         # Regions
         region_names = self.get_region_names(REGION_SET_NAME)
 
         reg_et_demand_yh = main.temporal_disaggregation(
-            simulation_yr=timestep,
+            simulation_yr=simulation_yr,
             et_demand_y=et_demand_y_electricity,
             load_profiles=load_profiles,
             region_names=region_names)
@@ -105,21 +109,4 @@ class ETWrapper(SectorModel):
         return et_module_out
 
     def extract_obj(self, results):
-        """Implement this method to return a scalar value objective function
-
-        This method should take the results from the output of the `simulate`
-        method, process the results, and return a scalar value which can be
-        used as the objective function
-
-        Arguments
-        =========
-        results : :class:`dict`
-            The results from the `simulate` method
-
-        Returns
-        =======
-        float
-            A scalar component generated from the simulation model results
-        """
-        pass
-
+        return 0
