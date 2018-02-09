@@ -18,7 +18,7 @@ def test_sigmoid_diffusion():
         sig_steeppness)
 
     assert result == 1
-    
+
     # ---
 
     base_yr = 2015
