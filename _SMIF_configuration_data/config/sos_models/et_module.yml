@@ -1,0 +1,16 @@
+convergence_absolute_tolerance: 1e-05
+convergence_relative_tolerance: 1e-05
+dependencies:
+- sink_model: et_module
+  sink_model_input: electricity
+  source_model: transport_energy_demand
+  source_model_output: electricity
+description: Energy demand assignement to hourly from hourly transportation demand
+max_iterations: 100
+name: et_module
+narrative_sets:
+- sheduled
+scenario_sets:
+- transport_energy_demand
+sector_models:
+- et_module

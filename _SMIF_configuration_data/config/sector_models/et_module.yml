@@ -1,0 +1,31 @@
+name: et_module
+description: ''
+path: ../models/et_module/run.py
+classname: ETWrapper
+# ---------------------------------------------------
+inputs: 
+- name: electricity
+  spatial_resolution: lad_uk_2016
+  temporal_resolution: annual
+  units: GWh
+# ---------------------------------------------------
+outputs: 
+- name: electricity
+  spatial_resolution: lad_uk_2016
+  temporal_resolution: hourly
+  units: GWh
+interventions: []
+initial_conditions: []
+parameters:
+- name: yr_until_changed_lp
+  absolute_range: ''
+  default_value: 2050
+  description: Year until future load profile assignement is fully realised
+  suggested_range: 
+  units: 'year'
+- name: load_profile_charging_regime
+  absolute_range: ''
+  default_value: 'sheduled'
+  description: EV charging regime
+  suggested_range: ''
+  units: String
