@@ -9,8 +9,9 @@ Et_module (energy_transport_module)
 .. image:: https://travis-ci.org/nismod/et_module.svg?branch=master
     :target: https://travis-ci.org/nismod/et_module
 
-.. image:: https://coveralls.io/repos/github/nismod/et-module/badge.svg
-    :target: https://coveralls.io/github/nismod/et-module
+.. image:: https://coveralls.io/repos/github/nismod/et_module/badge.svg?branch=master
+:target: https://coveralls.io/github/nismod/et_module?branch=master
+
 
 Temporally diasaggregates energy demand output from transport model.
 
