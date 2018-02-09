@@ -86,7 +86,6 @@ def load_curve_assignement(
     for load_profile in load_profiles:
         if load_profile.name == 'av_lp_2015.csv':
             profile_yh_by = load_profile.shape_yh
-            print(" -- A " + str(np.sum(profile_yh_by)))
 
     # Get future year load profile
     for load_profile in load_profiles:
@@ -103,7 +102,6 @@ def load_curve_assignement(
             if load_profile.name == 'av_lp_2050.csv':
                 profile_yh_ey = load_profile.shape_yh
 
-
     if base_yr == curr_yr:
         profile_yh_cy = profile_yh_by
     elif curr_yr == yr_until_changed or curr_yr > yr_until_changed:
@@ -116,13 +114,13 @@ def load_curve_assignement(
         # Calculate difference up to cy
         diff_profile_cy = diff_profile * simulation_year_p
 
-
         # Add difference to by
         profile_yh_cy = profile_yh_by + diff_profile_cy
 
+    assert round(np.sum(profile_yh_cy), 3) == 1
 
     # Plotting
-    plot_lp_dh(profile_yh_cy[0])
+    ##plot_lp_dh(profile_yh_cy)
 
     # ------------------------------------
     # Disaggregate for every region
@@ -134,6 +132,8 @@ def load_curve_assignement(
 
         # Multiply the annual total service demand with yh load profile
         reg_profile_yh = et_service_demand_y * profile_yh_cy
+        print(
+            "Assinging new shape {}  {} {}".format(region, et_service_demand_y, np.sum(profile_yh_cy)))
 
         # Reshape (365 days, 24hours) into 8760 timesteps
         et_demand_yh[region_array_nr] = reg_profile_yh.reshape(8760)
