@@ -82,12 +82,14 @@ class ETWrapper(SectorModel):
         # Load input variables
         # ---------------------
 
-        # --------------------
-        # SCENARIO PARAMETERS
-        # --------------------
+        # Scenario parameters from narrative YAML file
         yr_until_changed = 2050 #TODO: WRITE IN WRAPPER
-
         load_profile_scenario = 'sheduled' #'unsheduled'
+        '''import pprint 
+        pprint.pprint(data_handle.__dict__)
+        yr_until_changed = data_handle['yr_until_changed_lp']               # Year until regime would be fully realised
+        load_profile_scenario = data_handle['load_profile_charging_regime'] # Sheduled or unsheduled
+        prnt(":")'''
 
         # Regions
         regions = self.get_region_names(REGION_SET_NAME)
