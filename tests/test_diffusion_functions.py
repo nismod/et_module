@@ -1,3 +1,5 @@
+from et_module import diffusion_functions
+
 def test_sigmoid_diffusion():
     """testing
     """
@@ -8,7 +10,7 @@ def test_sigmoid_diffusion():
     sig_midpoint = 0
     sig_steeppness = 1
 
-    result = diffusion_technologies.sigmoid_diffusion(
+    result = diffusion_functions.sigmoid_diffusion(
         base_yr,
         curr_yr,
         end_yr,
@@ -25,7 +27,7 @@ def test_sigmoid_diffusion():
     sig_midpoint = 0
     sig_steeppness = 1
 
-    result = diffusion_technologies.sigmoid_diffusion(
+    result = diffusion_functions.sigmoid_diffusion(
         base_yr,
         curr_yr,
         end_yr,
@@ -42,7 +44,7 @@ def test_sigmoid_diffusion():
     sig_midpoint = 0
     sig_steeppness = 1
 
-    result = diffusion_technologies.sigmoid_diffusion(
+    result = diffusion_functions.sigmoid_diffusion(
         base_yr,
         curr_yr,
         end_yr,
@@ -60,28 +62,28 @@ def test_linear_diff():
     expected4 = 0
 
     # call function
-    out_value_1 = diffusion_technologies.linear_diff(
+    out_value_1 = diffusion_functions.linear_diff(
         base_yr=2015,
         curr_yr=2020,
         value_start=0.0,
         value_end=1.0,
         yr_until_changed=2020)
     assert out_value_1 == expected1
-    out_value_2 = diffusion_technologies.linear_diff(
+    out_value_2 = diffusion_functions.linear_diff(
         base_yr=2015,
         curr_yr=2016.5,
         value_start=1.0,
         value_end=2.0,
         yr_until_changed=2018)
     assert out_value_2 == expected2
-    out_value_3 = diffusion_technologies.linear_diff(
+    out_value_3 = diffusion_functions.linear_diff(
         base_yr=2000,
         curr_yr=2100,
         value_start=0,
         value_end=100.0,
         yr_until_changed=3000)
     assert out_value_3 == expected3
-    out_value_4 = diffusion_technologies.linear_diff(
+    out_value_4 = diffusion_functions.linear_diff(
         base_yr=2015,
         curr_yr=2015,
         value_start=0,

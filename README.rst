@@ -7,7 +7,7 @@ Et_module (energy_transport_module)
     :alt: Documentation Status
 
 .. image:: https://travis-ci.org/nismod/et_module.svg?branch=master
-    :target: https://travis-ci.org/nismod/et_module.svg?branch=master
+    :target: https://travis-ci.org/nismod/et_module
 
 .. image:: https://coveralls.io/repos/github/nismod/et-module/badge.svg
     :target: https://coveralls.io/github/nismod/et-module
