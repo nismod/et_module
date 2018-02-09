@@ -118,3 +118,25 @@ def test_load_curve_assignement():
     expected = (by + ((ey - by) * half_between_cy_and_ey)) * 8760
 
     assert result[reg_array_nr][year_hour_nr] == expected
+
+    # ---
+    result = main_functions.load_curve_assignement(
+        curr_yr=2025,
+        base_yr=2000,
+        yr_until_changed=2050,
+        et_service_demand_yh=et_service_demand_yh,
+        load_profiles=load_profiles,
+        regions=regions,
+        charging_scenario='sheduled',
+        diffusion='sigmoid')
+
+    reg_array_nr = range(len(regions))[0]
+    year_hour_nr = 5
+
+    half_between_cy_and_ey = 0.5 #difference between 0 and 0.5 for first hour
+
+    by = flat_profile_yh[0][year_hour_nr]
+    ey = not_flat_profile_yh[0][year_hour_nr]
+    expected = (by + ((ey - by) * half_between_cy_and_ey)) * 8760
+
+    assert result[reg_array_nr][year_hour_nr] == expected
