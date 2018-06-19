@@ -2,14 +2,14 @@
 """
 import matplotlib.pyplot as plt
 
-def plot_lp_dh(data_dh_modelled):
+def plot_lp_dh(data_dh_modelled, day):
     """Plot load curve of a day
     """
     x_values = range(24)
 
     plt.plot(
         x_values,
-        list(data_dh_modelled),
+        list(data_dh_modelled[day]),
         color='red',
         label='modelled')
 

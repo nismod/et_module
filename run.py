@@ -76,45 +76,47 @@ class ETWrapper(SectorModel):
             Outputs of et_module
         """
         logging.info("... start et_module")
-        print("... start et_module")
 
         # ---------------------
         # Load input variables
         # ---------------------
+
+        # Define base year
+        base_yr = 2015
 
         # Scenario parameters from narrative YAML file
         yr_until_changed = data_handle.get_parameter('yr_until_changed_lp')                 # Year until regime would be fully realised
         load_profile_scenario = data_handle.get_parameter('load_profile_charging_regime')   # Sheduled or unsheduled
 
         # Regions
-        print("... loading regions")
+        logging.info("... loading regions")
         regions = self.get_region_names(REGION_SET_NAME)
 
         # Current year of simulation
-        print("... loading base and simulation year")
+        logging.info("... loading base and simulation year")
         simulation_yr = data_handle.current_timestep
-        base_yr = data_handle.timesteps[0]
-        
+
         # Hourly transport demand of simulation year (electrictiy)
-        print("... loading transport input")
+        logging.info("... loading transport input")
         elec_array_data = data_handle.get_base_timestep_data('electricity')
         et_demand_elec_input = self.array_to_dict(elec_array_data)
-        
+
         # Paths where csv profile are stored
-        print("... loading paths")
+        logging.info("... loading paths")
         main_path = os.path.dirname(os.path.abspath(__file__))
         csv_path_lp = os.path.join(main_path, '_config_data')
-        
+
         # ------------------------------------
         # Load EV charging load profiles
         # ------------------------------------
         load_profiles = main_functions.get_load_profiles(
             csv_path_lp)
-        print("... load load profiles")
+        logging.info("... load load profiles")
 
         # ------------------
         # Temporal disaggregation of load profile
         # ------------------
+        logging.info("changing load profile")
         reg_et_demand_yh = main_functions.load_curve_assignement(
             curr_yr=simulation_yr,
             base_yr=base_yr,

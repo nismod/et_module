@@ -3,9 +3,10 @@
 import os
 import sys
 import csv
+import logging
 import numpy as np
 from et_module import diffusion_functions
-from et_module.plotting_functions import plot_lp_dh
+from et_module import plotting_functions
 
 def load_curve_assignement(
         curr_yr,
@@ -101,7 +102,7 @@ def load_curve_assignement(
             # Sheduled load profile
             if load_profile.name == 'av_lp_2050.csv':
                 profile_yh_ey = load_profile.shape_yh
-
+    
     if base_yr == curr_yr:
         profile_yh_cy = profile_yh_by
     elif curr_yr == yr_until_changed or curr_yr > yr_until_changed:
@@ -119,8 +120,10 @@ def load_curve_assignement(
 
     assert round(np.sum(profile_yh_cy), 3) == 1
 
+    # ----------
     # Plotting
-    ##plot_lp_dh(profile_yh_cy)
+    # ----------
+    #plotting_functions.plot_lp_dh(profile_yh_cy, day=2)
 
     # ------------------------------------
     # Disaggregate for every region
@@ -132,8 +135,10 @@ def load_curve_assignement(
 
         # Multiply the annual total service demand with yh load profile
         reg_profile_yh = et_service_demand_y * profile_yh_cy
-        print(
-            "Assinging new shape {}  {} {}".format(region, et_service_demand_y, np.sum(profile_yh_cy)))
+
+        logging.debug(
+            "Assinging new shape {}  {} {}".format(
+                region, et_service_demand_y, np.sum(profile_yh_cy)))
 
         # Reshape (365 days, 24hours) into 8760 timesteps
         et_demand_yh[region_array_nr] = reg_profile_yh.reshape(8760)
@@ -172,10 +177,10 @@ def get_load_profiles(path):
         lp_dh_p = lp_dh / 100 # convert percentage to fraction
 
         # Shape for every hour in a year (Assign same profile to every day)
-        shape_yd = np.full((365), 1/365) 
+        shape_yd = np.full((365), 1/365)
 
         # Shape for every hour in a year (365) * (24)
-        shape_yh = shape_yd[:, np.newaxis]  * lp_dh_p 
+        shape_yh = shape_yd[:, np.newaxis]  * lp_dh_p
 
         # Create load profile
         load_profile = LoadProfile(
