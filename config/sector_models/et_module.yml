@@ -1,6 +1,6 @@
 name: et_module
 description: ''
-path: ../models/et_module/run.py
+path: ../et_module/run.py
 classname: ETWrapper
 # ---------------------------------------------------
 inputs: 

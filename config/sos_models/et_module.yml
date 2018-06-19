@@ -9,7 +9,7 @@ description: Energy demand assignement to hourly from hourly transportation dema
 max_iterations: 100
 name: et_module
 narrative_sets:
-- sheduled
+- load_profile_charging_regime
 scenario_sets:
 - transport_energy_demand
 sector_models:

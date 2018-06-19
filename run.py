@@ -87,25 +87,30 @@ class ETWrapper(SectorModel):
         load_profile_scenario = data_handle.get_parameter('load_profile_charging_regime')   # Sheduled or unsheduled
 
         # Regions
+        print("... loading regions")
         regions = self.get_region_names(REGION_SET_NAME)
 
         # Current year of simulation
+        print("... loading base and simulation year")
         simulation_yr = data_handle.current_timestep
         base_yr = data_handle.timesteps[0]
-
+        
         # Hourly transport demand of simulation year (electrictiy)
+        print("... loading transport input")
         elec_array_data = data_handle.get_base_timestep_data('electricity')
         et_demand_elec_input = self.array_to_dict(elec_array_data)
-
+        
         # Paths where csv profile are stored
-        main_path = resource_filename(Requirement.parse("et_module"), "")
+        print("... loading paths")
+        main_path = os.path.dirname(os.path.abspath(__file__))
         csv_path_lp = os.path.join(main_path, '_config_data')
-
+        
         # ------------------------------------
         # Load EV charging load profiles
         # ------------------------------------
         load_profiles = main_functions.get_load_profiles(
             csv_path_lp)
+        print("... load load profiles")
 
         # ------------------
         # Temporal disaggregation of load profile

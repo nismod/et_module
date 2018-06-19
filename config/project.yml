@@ -10,7 +10,7 @@ region_definitions:
 # shared understanding of regions within the modelled area (e.g. GB)
 - name: lad_uk_2016
   description: 'Local Authority Districts (data from 2016, unchanged since 2009)'
-  filename: lad_uk_2016-12/lad_uk_2016-12.shp
+  filename: same_as_scenario_data/lad_2016_uk_simplified.shp
 # ------------------------------------------------
 interval_definitions:
 # shared understanding of time intervals within a year
@@ -28,7 +28,7 @@ scenarios:
 - name: et_demand_baseline
   description: 'Baseline GWh of transport for the UK'
   scenario_set: transport_energy_demand
-  parameters:
+  facets:
   - name: electricity
     filename: et_demand_electricity.csv
     spatial_resolution: lad_uk_2016
@@ -36,11 +36,11 @@ scenarios:
     units: GWh
 # ------------------------------------------------
 narratives:
-- name: 'Sheduled EV charging regime'
+- name: sheduled
   description: 'Sheduled EV charging regime'
-  filename: et_module_sheduled.yml
-  narrative_set: sheduled
-- name: 'Unsheduled EV charging regime'
+  filename: et_sheduled.yml
+  narrative_set: et_module_narratives
+- name: unsheduled
   description: 'Unsheduled EV charging regime'
-  filename: et_module_unsheduled.yml
-  narrative_set: unsheduled
+  filename: et_unsheduled.yml
+  narrative_set: et_module_narratives

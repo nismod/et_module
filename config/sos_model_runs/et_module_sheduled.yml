@@ -1,10 +1,9 @@
 decision_module: ''
 description: Run et_module
-name: et_module
+name: et_module_sheduled
 narratives:
-  sheduled:
-  - Sheduled EV charging regime
-  - Unsheduled EV charging regime
+  et_module_narratives:
+  - sheduled
 scenarios:
   transport_energy_demand: et_demand_baseline
 sos_model: et_module
