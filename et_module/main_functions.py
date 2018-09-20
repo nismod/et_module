@@ -6,7 +6,6 @@ import csv
 import logging
 import numpy as np
 from et_module import diffusion_functions
-from et_module import plotting_functions
 
 def load_curve_assignement(
         curr_yr,
@@ -123,7 +122,8 @@ def load_curve_assignement(
     # ----------
     # Plotting
     # ----------
-    #plotting_functions.plot_lp_dh(profile_yh_cy, day=2)
+    #from et_module import plotting_functions
+    #fig_lp.plot_lp_dh(profile_yh_cy, day=2)
 
     # ------------------------------------
     # Disaggregate for every region
