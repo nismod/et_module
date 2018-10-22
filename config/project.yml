@@ -1,7 +1,9 @@
 name: "Test Project"
 scenario_sets:
-- name: transport_energy_demand
+- name: electricity_energy_demand
   description: 'Hourly electricity demand of transport model'
+- name: trips_energy_demand
+  description: 'Hourly trips of EVs from origin of transport model'
 narrative_sets:
 - name: sheduled
   description: 'BLABLA'
@@ -20,20 +22,32 @@ interval_definitions:
 - name: hourly
   description: 'Every hour in a year'
   filename: hourly_intervals.csv
+- name: daily
+  description: 'One day in a year'
+  filename: daily_intervals.csv
 # ------------------------------------------------
-units:
+units: units.txt
 # ------------------------------------------------
 scenarios:
 # given input data, required values for every year of a model run
 - name: et_demand_baseline
-  description: 'Baseline GWh of transport for the UK'
-  scenario_set: transport_energy_demand
+  description: 'Baseline GWh of EV'
+  scenario_set: electricity_energy_demand
   facets:
   - name: electricity
-    filename: et_demand_electricity.csv
+    filename: et_electricity.csv
     spatial_resolution: lad_uk_2016
-    temporal_resolution: annual
+    temporal_resolution: daily
     units: GWh
+- name: et_trips_baseline
+  description: 'Baseline number of EV trips'
+  scenario_set: trips_energy_demand
+  facets:
+  - name: trips
+    filename: et_trips.csv
+    spatial_resolution: lad_uk_2016
+    temporal_resolution: daily
+    units: number
 # ------------------------------------------------
 narratives:
 - name: sheduled

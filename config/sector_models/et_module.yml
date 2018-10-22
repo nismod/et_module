@@ -6,8 +6,12 @@ classname: ETWrapper
 inputs: 
 - name: electricity
   spatial_resolution: lad_uk_2016
-  temporal_resolution: annual
+  temporal_resolution: daily
   units: GWh
+- name: trips
+  spatial_resolution: lad_uk_2016
+  temporal_resolution: daily
+  units: number
 # ---------------------------------------------------
 outputs: 
 - name: electricity

@@ -5,8 +5,10 @@ narratives:
   et_module_narratives:
   - sheduled
 scenarios:
-  transport_energy_demand: et_demand_baseline
+  electricity_energy_demand: et_demand_baseline
+  trips_energy_demand: et_trips_baseline
 sos_model: et_module
 stamp: '2017-11-07T14:15:00+00:00'
 timesteps:
 - 2020
+strategies: []
