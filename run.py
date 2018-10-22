@@ -9,6 +9,7 @@ from collections import defaultdict
 from smif.model.sector_model import SectorModel
 from pkg_resources import Requirement, resource_filename
 from pyproj import Proj, transform
+
 from et_module import main_functions
 
 REGION_SET_NAME = 'lad_uk_2016'
@@ -76,6 +77,28 @@ class ETWrapper(SectorModel):
             Outputs of et_module
         """
         logging.info("... start et_module")
+
+
+        # ------------------------
+        # Capacity based appraoch
+        # ------------------------
+        
+        # Get nr of EVs from energy model
+
+        # Get peak hour
+
+        # Get demand used for peak hour
+
+        # CAlculate flexible battery size
+
+
+        # Provide demand per hour to supply
+
+        # 
+        
+        
+
+
 
         # ---------------------
         # Load input variables
