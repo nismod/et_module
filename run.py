@@ -118,15 +118,21 @@ class ETWrapper(SectorModel):
         # --------------------------------------
         # Calculate number of EVs based on trips
         max_nr_ev_reg = nr_trips_ev_24h * assumption_nr_ev_per_trip
+        #print("max_nr_ev_reg")
+        #print(max_nr_ev_reg[0])
 
         # --------------------------------------
         # 3. Calculate total EV battery capacity
         # --------------------------------------
         # Number of reachable EVs
         nr_ev_reg = max_nr_ev_reg * assumption_nr_unreached_EVs
+        #print("nr_ev_reg")
+        #print(nr_ev_reg[0])
 
         # Calculate overall maximum capacity of all EVs for every hour
         total_max_capacity_regs = nr_ev_reg * assumption_av_usable_battery_capacity
+        #print("total_max_capacity_regs")
+        #print(total_max_capacity_regs[0])
 
         # Overall maximum capacity for peak hour
         peak_h_max_capacity = np.zeros((total_max_capacity_regs.shape[0]))
@@ -134,26 +140,36 @@ class ETWrapper(SectorModel):
         for region_nr, peak_h_nr in enumerate(peak_h_reg_elec):
             peak_h_max_capacity[region_nr] = total_max_capacity_regs[region_nr][peak_h_nr]
 
+        #print("peak_h_max_capacity")
+        #print(peak_h_max_capacity[0])
         # --------------------------------------
         # 4. Calculate flexible "EV battery" used for G2V and V2G
         # --------------------------------------
         # Calculate maximum possible flexible battery size 
         max_potential_V2G_capacity = peak_h_max_capacity - peak_demand_h_reg_elec
+        #print("max_potential_V2G_capacity")
+        #print(max_potential_V2G_capacity[0])
+        #print("peak_demand_h_reg_elec")
+        #print(peak_demand_h_reg_elec[0])
 
         # Include safety marging
         assumption_safety_margin = 0.1 # [%]
         
         # Calculated capacity of safety margin
         capacity_safety_margin = peak_h_max_capacity * assumption_safety_margin
+        #print("capacity_safety_margin")
+        #print(capacity_safety_margin[0])
 
         # Calculate actual V2G_capacity
         acutal_V2G_capacity = max_potential_V2G_capacity - capacity_safety_margin
+        #print("acutal_V2G_capacity")
+        #print(acutal_V2G_capacity[0])
 
         # If below zero, set to zero
         acutal_V2G_capacity[acutal_V2G_capacity < 0] = 0
+        #print("acutal_V2G_capacity")
+        #print(acutal_V2G_capacity[0])
 
-        import pprint
-        print(pprint.pprint(acutal_V2G_capacity))
         return acutal_V2G_capacity
 
         '''# ---------------------

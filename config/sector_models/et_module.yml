@@ -7,17 +7,17 @@ inputs:
 - name: electricity
   spatial_resolution: lad_uk_2016
   temporal_resolution: daily
-  units: GWh
+  units: kWh
 - name: trips
   spatial_resolution: lad_uk_2016
   temporal_resolution: daily
   units: number
 # ---------------------------------------------------
 outputs: 
-- name: electricity
+- name: v2g_g2v_capacity
   spatial_resolution: lad_uk_2016
   temporal_resolution: hourly
-  units: GWh
+  units: kWh
 interventions: []
 initial_conditions: []
 parameters:
