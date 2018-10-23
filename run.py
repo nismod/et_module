@@ -101,7 +101,7 @@ class ETWrapper(SectorModel):
         # Assumptions
         # --------------------------------------
         assumption_nr_ev_per_trip = 1               # [] Number of EVs per trip
-        assumption_nr_unreached_EVs = 1.0           # [%] Percentage of EVs not used for V2G and G2V
+        assumption_nr_unreached_EVs = 1.0           # [%] Percentage of EVs not used for v2g and G2V
         assumption_av_charging_state = 0.5          # [%] Assumed average charging state of EVs before peak trip hour
         assumption_av_usable_battery_capacity = 30  # [kwh] Average (storage) capacity of EV Source: https://en.wikipedia.org/wiki/Electric_vehicle_battery
 
@@ -143,12 +143,12 @@ class ETWrapper(SectorModel):
         #print("peak_h_max_capacity")
         #print(peak_h_max_capacity[0])
         # --------------------------------------
-        # 4. Calculate flexible "EV battery" used for G2V and V2G
+        # 4. Calculate flexible "EV battery" used for G2V and v2g
         # --------------------------------------
         # Calculate maximum possible flexible battery size 
-        max_potential_V2G_capacity = peak_h_max_capacity - peak_demand_h_reg_elec
-        #print("max_potential_V2G_capacity")
-        #print(max_potential_V2G_capacity[0])
+        max_potential_v2g_capacity = peak_h_max_capacity - peak_demand_h_reg_elec
+        #print("max_potential_v2g_capacity")
+        #print(max_potential_v2g_capacity[0])
         #print("peak_demand_h_reg_elec")
         #print(peak_demand_h_reg_elec[0])
 
@@ -160,17 +160,17 @@ class ETWrapper(SectorModel):
         #print("capacity_safety_margin")
         #print(capacity_safety_margin[0])
 
-        # Calculate actual V2G_capacity
-        acutal_V2G_capacity = max_potential_V2G_capacity - capacity_safety_margin
-        #print("acutal_V2G_capacity")
-        #print(acutal_V2G_capacity[0])
+        # Calculate actual v2g_capacity
+        acutal_v2g_capacity = max_potential_v2g_capacity - capacity_safety_margin
+        #print("acutal_v2g_capacity")
+        #print(acutal_v2g_capacity[0])
 
         # If below zero, set to zero
-        acutal_V2G_capacity[acutal_V2G_capacity < 0] = 0
-        #print("acutal_V2G_capacity")
-        #print(acutal_V2G_capacity[0])
+        acutal_v2g_capacity[acutal_v2g_capacity < 0] = 0
+        #print("acutal_v2g_capacity")
+        #print(acutal_v2g_capacity[0])
 
-        return acutal_V2G_capacity
+        return acutal_v2g_capacity
 
         '''# ---------------------
         # Load input variables

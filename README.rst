@@ -15,13 +15,12 @@ Et_module (energy_transport_module)
 
 Temporally diasaggregates energy demand output from transport model.
 
-.. image:: https://github.com/nismod/et_module/blob/master/docs/_images/001-model_overview.jpg
+The hourly electricity demand is used to simulate the V2G and G2V capacity based on
+simplified assumptions about average electric vehicle battery capacity and assumptions
+on average states of charges. The simulated capacity can then be used by the energy supply
+model in its optimisation.
+
+.. image:: https://github.com/nismod/et_module/blob/master/docs/_images/002-capacity_modelling.jpg
     :alt: Et_module overview
     :width: 100%
     :align: center
-
-
-Charging load profiles
-======================
-In the folder ``_config_data`` different current and future
-load profiles are generated in an excel file, taken from literature.
