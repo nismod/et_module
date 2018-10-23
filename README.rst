@@ -22,5 +22,5 @@ model in its optimisation.
 
 .. image:: https://github.com/nismod/et_module/blob/master/docs/_images/002_capacity_modelling.jpg
     :alt: Et_module overview
-    :width: 100%
+    :width: 60%
     :align: center

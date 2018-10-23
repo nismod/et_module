@@ -9,30 +9,6 @@ import pandas as pd
 
 from et_module import diffusion_functions
 
-def read_csv_data(path, year):
-
-    df = pd.read_csv(path)
-
-    # Remove all rows of wrong year
-    df = df[df['year'] == year]
-
-    # Drop all rows which are not hours
-    columns = list(df.columns.values)
-    columnns_not_hours = []
-    for i in columns:
-        try:
-            i_int = int(i)   
-            if i_int not in range(25):
-                columnns_not_hours.append(i)
-        except:
-             columnns_not_hours.append(i)
-
-    df_data_hours = df.drop(columns=columnns_not_hours)
-
-    array_data_hours_yr = df_data_hours.values
-
-    return array_data_hours_yr
-
 def load_curve_assignement(
         curr_yr,
         base_yr,
