@@ -20,7 +20,7 @@ simplified assumptions about average electric vehicle battery capacity and assum
 on average states of charges. The simulated capacity can then be used by the energy supply
 model in its optimisation.
 
-.. image:: https://github.com/nismod/et_module/blob/master/docs/_images/002-capacity_modelling.jpg
+.. image:: https://github.com/nismod/et_module/blob/master/docs/_images/002_capacity_modelling.jpg
     :alt: Et_module overview
     :width: 100%
     :align: center
