@@ -7,7 +7,7 @@ from collections import defaultdict
 from et_module import main_functions
 
 
-def main(self, regions, timestep, reg_trips_ev_24h, reg_elec_24h):
+def main(regions, timestep, reg_trips_ev_24h, reg_elec_24h):
     """Runs the electric vehicle model for one `timestep`
 
     Arguments
