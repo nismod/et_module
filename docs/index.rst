@@ -13,7 +13,18 @@ This is the documentation of **et_module**.
     This is necessary as the outputs of the transportion model
     are annual. Most importantly, with help of this module
     different charging patterns of electric vehicles are 
-    used to temporaly disaggregate electricity demand.
+    used to temporally disaggregate electricity demand.
+
+Overview
+========
+
+.. image:: https://raw.githubusercontent.com/nismod/et_module/master/docs/_images/001-model_overview.jpg
+    :alt: Et_module overview
+    :width: 100%
+    :align: center
+
+Figure 1: Et_module functional overview.
+
 
 Contents
 ========
@@ -21,7 +32,6 @@ Contents
 .. toctree::
    :maxdepth: 4
 
-   Model Documentation <documentation>
    Module Reference <api/modules>
    License <license>
    Authors <authors>
