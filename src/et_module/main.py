@@ -1,11 +1,6 @@
 """The sector model wrapper for smif to run the energy demand model
 """
-import os
-import logging
 import numpy as np
-from collections import defaultdict
-from et_module import main_functions
-
 
 def main(regions, timestep, reg_trips_ev_24h, reg_elec_24h):
     """Runs the electric vehicle model for one `timestep`
