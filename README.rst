@@ -1,5 +1,3 @@
-.. _readme:
-
 Et_module (energy_transport_module)
 ====================================
 .. image:: https://img.shields.io/badge/docs-latest-brightgreen.svg
