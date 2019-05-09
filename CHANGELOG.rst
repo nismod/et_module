@@ -2,6 +2,10 @@
 Changelog
 =========
 
+Version 0.3
+===========
+- Simplified calculation of total storage capacity
+
 Version 0.2
 ===========
 

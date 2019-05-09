@@ -5,6 +5,10 @@ import numpy as np
 def main(regions, timestep, reg_trips_ev_24h, reg_elec_24h):
     """Runs the electric vehicle model for one `timestep`
 
+    Calculation steps:
+    - Calculates based on number of trips the number of EV per region
+    - Calculates based on number of EV per region and average storage capacity of EV total EV capacity per region
+
     Arguments
     ---------
     regions : list
@@ -29,10 +33,10 @@ def main(regions, timestep, reg_trips_ev_24h, reg_elec_24h):
     # Assumptions
     # --------------------------------------
     assumption_nr_ev_per_trip = 1                   # [-] Number of EVs per trip
-    assumption_ev_p_with_v2g_capability = 0.5       # [%] Percentage of EVs used for V2G and G2V
-    assumption_av_charging_state = 0.5              # [%] Assumed average state-of-charge of EVs before peak trip hour
+    #assumption_ev_p_with_v2g_capability = 0.5       # [%] Percentage of EVs used for V2G and G2V
+    #assumption_av_charging_state = 0.5              # [%] Assumed average state-of-charge of EVs before peak trip hour
     assumption_av_usable_battery_capacity = 30.0    # [kwh] Average (storage) capacity of EV Source: https://en.wikipedia.org/wiki/Electric_vehicle_battery
-    assumption_safety_margin = 0.1                  # [%] Assumed safety margin (minimum capacity SOC)
+    #assumption_safety_margin = 0.1                  # [%] Assumed safety margin (minimum capacity SOC)
 
     # --------------------------------------
     # 1. Find peak demand hour for EVs
@@ -50,6 +54,17 @@ def main(regions, timestep, reg_trips_ev_24h, reg_elec_24h):
     for region_nr, peak_hour_nr in enumerate(reg_peak_position_h_elec):
         reg_max_nr_ev[region_nr] = reg_trips_ev_24h[region_nr][peak_hour_nr] * assumption_nr_ev_per_trip
 
+    # --------------------------------------
+    # 3. Calculate total vehicle battery capacity
+    # --------------------------------------
+    total_battery_capacity = np.zeros((nr_of_regions))
+    for region_nr, reg_nr_EVs in enumerate(reg_max_nr_ev):
+        
+        reg_tot_battery_capacity = reg_nr_EVs * assumption_av_usable_battery_capacity
+
+        actual_v2g_capacity[region_nr] = reg_tot_battery_capacity
+
+    '''
     # --------------------------------------
     # 3. Calculate total EV battery capacity of all vehicles which can do V2G
     # --------------------------------------
@@ -112,5 +127,5 @@ def main(regions, timestep, reg_trips_ev_24h, reg_elec_24h):
             else:
                 # Less is use than minimum SOC
                 actual_v2g_capacity[region_nr] = v2g_capacity
-
-    return actual_v2g_capacity
+    
+    return actual_v2g_capacity'''
