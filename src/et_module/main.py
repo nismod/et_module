@@ -16,7 +16,7 @@ def main(regions, timestep, reg_trips_ev_24h, reg_elec_24h):
     timestep : int
         The current model year
     reg_trips_ev_24h : numpy.ndarray
-        Array of shape regions-by-intervals containing the number of trips 
+        Array of shape regions-by-intervals containing the number of trips
         started in each region in each interval
     reg_elec_24h : numpy.ndarray
         Array of shape regions-by-intervals containing hourly demand data
@@ -59,11 +59,12 @@ def main(regions, timestep, reg_trips_ev_24h, reg_elec_24h):
     # --------------------------------------
     total_battery_capacity = np.zeros((nr_of_regions))
     for region_nr, reg_nr_EVs in enumerate(reg_max_nr_ev):
-        
+
         reg_tot_battery_capacity = reg_nr_EVs * assumption_av_usable_battery_capacity
 
-        actual_v2g_capacity[region_nr] = reg_tot_battery_capacity
+        total_battery_capacity[region_nr] = reg_tot_battery_capacity
 
+    return total_battery_capacity
     '''
     # --------------------------------------
     # 3. Calculate total EV battery capacity of all vehicles which can do V2G
@@ -113,7 +114,7 @@ def main(regions, timestep, reg_trips_ev_24h, reg_elec_24h):
         # If average state of charging smaller than actual used capacity the V2G capacity gets reduced
         if used_capacity > average_soc_capacity:
             v2g_capacity = reg_peak_h_capacity - used_capacity
-    
+
             if v2g_capacity < 0:
                 actual_v2g_capacity[region_nr] = 0
             else:
@@ -127,5 +128,5 @@ def main(regions, timestep, reg_trips_ev_24h, reg_elec_24h):
             else:
                 # Less is use than minimum SOC
                 actual_v2g_capacity[region_nr] = v2g_capacity
-    
+
     return actual_v2g_capacity'''
